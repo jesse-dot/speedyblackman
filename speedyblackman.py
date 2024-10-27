@@ -52,7 +52,7 @@ class AlexNet(nn.Module):
         return x
 
 modelturn = AlexNet()
-print(modelturn.load_state_dict(torch.load('data\set2\AlexNetTurn.pth', map_location=torch.device('cpu'))))
+print(modelturn.load_state_dict(torch.load(r'data\set2\AlexNetTurn.pth', map_location=torch.device('cpu'))))
 modelturn.eval()
 
 # Acceleration model
@@ -62,11 +62,11 @@ modelacc.classifier = nn.Sequential(
     nn.Dropout(p=0.2, inplace=False),
     nn.Linear(in_features=1280, out_features = 2)
 )
-modelacc.load_state_dict(torch.load('data\set1\MobileNetV2acc.pth', map_location=torch.device('cpu')))
+modelacc.load_state_dict(torch.load(r'data\set1\MobileNetV2acc.pth', map_location=torch.device('cpu')))
 modelacc.eval()
 
 
-def screen_record(top = 300, left = 0, width = 1920, height = 300):
+def screen_record(top = 300, left = 0, width = 1280, height = 720):  # P042a
   
     mon = {"top": top, "left": left, "width": width, "height": height}
     sct = mss()
@@ -262,6 +262,10 @@ if __name__ == "__main__":
             accPreds = accPreds.detach().numpy()
             
             flex(foo, turnPreds, accPreds,window_name='speedyblackmanCAM')
+
+            # Pcdc6
+            del transformed_foo
+            torch.cuda.empty_cache()
 
         except KeyboardInterrupt:
 
